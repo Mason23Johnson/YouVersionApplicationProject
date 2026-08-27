@@ -13,3 +13,9 @@ def get_passage_id( day : int ) -> str:
 					  headers=_headers())
 	response.raise_for_status()
 	return response.json()[ "passage_id" ]
+
+def get_passage_text( versionid : int, passageid : str ) -> dict :
+	url = f"{BASE_URL}/v1/bibles/{versionid}/passages/{passageid}"
+	response = httpx.get(url, headers=_headers())
+	response.raise_for_status()
+	return response.json()

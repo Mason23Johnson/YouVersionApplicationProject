@@ -8,7 +8,12 @@ def get_verse_of_the_day(day: int, version_id: int) -> dict:
 
     passage_id = client.get_passage_id(day)
     passage = client.get_passage_text(version_id, passage_id)
-    result = passage  # change day, reference, text, version_id
+    result = {
+        "day": day,
+        "reference": passage["reference"],
+        "text": passage["content"],
+        "version_id": version_id,
+    }
 
     cache.set(day, version_id, result)
     return result

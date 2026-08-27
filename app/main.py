@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 import httpx
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
@@ -9,6 +11,8 @@ from app.errors import ApiError
 load_dotenv()
 
 app = FastAPI()
+
+DEFAULT_VERSION_ID = 206  # World English Bible — public domain, always accessible
 
 
 @app.exception_handler(ApiError)
@@ -32,7 +36,10 @@ def _parse_day(raw_day: str) -> int:
 
 
 @app.get("/votd")
-def votd(day: str, version: int):
+def votd(day: str | None = None, version: int = DEFAULT_VERSION_ID):
+    if day is None:
+        day = str(datetime.now(timezone.utc).timetuple().tm_yday)
+
     parsed_day = _parse_day(day)
 
     try:

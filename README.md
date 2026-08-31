@@ -54,7 +54,7 @@ That last one is invalid and returns a 400:
 
 ## Decisions & assumptions
 
-If day is left off I default to today in UTC, since there's no good way to know the caller's timezone. If version is left off I default to 206 (World English Bible) since it's public domain and works with the given key. The cache is just a plain dict in memory keyed by day and version — no TTL, since the calendar doesn't change, so it doesn't need one. Any upstream failure (timeout, bad status, whatever) just becomes a 502, didn't see a need to split those out further. Day gets parsed manually instead of relying on FastAPI to coerce it to int, otherwise something like "abc" would return FastAPI's default error instead of the 400 shape the spec wants.
+If day is left off I default to today in UTC, since there's no good way to know the caller's timezone. If version is left off I default to 206 (World English Bible) since it's public domain and works with the given key. The cache is just a plain dict in memory keyed by day and version, no TTL, since the calendar doesn't change, so it doesn't need one. Any upstream failure (timeout, bad status, whatever) just becomes a 502, didn't see a need to split those out further. Day gets parsed manually instead of relying on FastAPI to coerce it to int, otherwise something like "abc" would return FastAPI's default error instead of the 400 shape the spec wants.
 
 ## If I had more time
 
